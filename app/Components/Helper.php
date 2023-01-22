@@ -10,7 +10,7 @@ class Helper
      * This function is use to return gender array
      * @return gender
      */
-    public function genderArr()
+    public static function genderArr()
     {
         return ['1' => 'Male', '2' => 'Female'];
     }
@@ -74,5 +74,13 @@ class Helper
         //     return false;
         // }
         // return true;
+    }
+
+    /**
+     * Role Arry
+     */
+    public static function getUserRoleArr()
+    {
+        return ['Sub-Admin'=>'SUB_ADMIN','Admin'=>'ADMIN','Devolper'=>'DEV','Quality analysis'=>'QA','Client'=>'CLIENT'];
     }
 }

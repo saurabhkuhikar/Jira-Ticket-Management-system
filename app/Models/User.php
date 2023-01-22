@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -16,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','email','roles', 'email', 'password','gender','active'
+        'name', 'email', 'roles', 'email', 'password', 'gender', 'active',
     ];
 
     /**
@@ -28,5 +27,21 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-   
+    public static function getAllUserData()
+    {
+       return User::where(['active',1]);
+    }
+
+    /**
+     * This function is use to create the new user
+     * @param Array
+     * @return bool
+     */
+    public static function saveUser($dataArr = [])
+    {
+        if (!User::create($dataArr)) {
+           return false;
+        }
+        return true;
+    }
 }

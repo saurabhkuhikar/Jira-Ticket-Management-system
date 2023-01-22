@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Validator;
-use App\Component\Helper;
+use App\Components\Helper;
+use App\Models\User;
 use Session;
 use Auth;
 class UserController extends Controller
@@ -17,7 +17,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $userData = User::where('active',1)->orderBy('id', 'desc')->paginate(5);
+        $userStatusArr = Helper::getStatusArr();
+        $genderArr = Helper::genderArr();
+        return view('user.index',compact('userData','userStatusArr','genderArr'));
     }
 
     /**
@@ -27,7 +30,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $userRoleArr = Helper::getUserRoleArr();
+        return view('user.add',compact('userRoleArr'))->render();
     }
 
     /**
@@ -111,7 +115,7 @@ class UserController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('login_page');
+        return redirect()->route('login');
     }
 
      /**
