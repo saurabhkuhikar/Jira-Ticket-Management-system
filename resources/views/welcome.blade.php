@@ -76,7 +76,7 @@
                             <a href="{{ route('register') }}">Register</a>
                         @endif
                     @endauth
-                </div>p[]
+                </div>
             @endif
 
             <div class="content">

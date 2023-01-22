@@ -17,4 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('login', ['uses'=>'UserController@logPage'])->name('login');
-Route::get('login-submit', ['uses'=>'UserController@store'])->name('user_authenticate');
+Route::get('home', ['uses'=>'HomeController@dashboard'])->name('home_page');
+Route::post('login-submit', ['uses'=>'UserController@logSubmit'])->name('user_authenticate');
+Route::get('logout', ['uses'=>'Admin\LoginController@logout'])->name('logout');
