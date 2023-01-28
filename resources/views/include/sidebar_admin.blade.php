@@ -35,10 +35,10 @@
           </li>  
           <?php } ?>        
           <li class="nav-item">
-            <a href="#" class="nav-link"><p>Tickets</p></a>
+            <a href="{{route('ticket_index')}}" class="nav-link"><p>Tickets</p></a>
           </li>          
           <li class="nav-item">
-            <a href="#" class="nav-link"><p>Projects</p></a>
+            <a href="{{route('assign_index')}}" class="nav-link"><p>Assign Tickets</p></a>
           </li>          
         </ul>
       </nav>
