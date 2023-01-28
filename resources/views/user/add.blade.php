@@ -3,11 +3,16 @@
     <div class="content-wrapper">
         <div class="content">
             <div class="container-fluid">
+            <div class="row mb-2 content-header">
+                <div class="col-sm-6">
+                </div>
+            </div>
                 <div class="row">
                     <div class="col-md-9">
                         <div class="card">
                             <div class="card-header">
-                                <form action="{{route('user_add')}}" method="post" id='user'>
+                                <form action="{{route('user_store')}}" method="post" id='user'>
+                                @csrf
                                 <div class="card-title">
                                     <legend style="color: green; font-weight: bold;">
                                         Create User
@@ -38,7 +43,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="Email">Email</label>
-                                            <input type="text" name="email" id="email" class="{{ ($errors->apply->has('email'))?'is-invalid form-control':'form-control' }}" placeholder="Enter Your Email" value="">
+                                            <input type="text" name="email" id="email" class="{{ ($errors->apply->has('email'))?'is-invalid form-control':'form-control' }}" placeholder="Enter Your Email" value="{{old('email')}}">
                                             @if ($errors->apply->has('email'))
                                                 <span class="invalid-feedback">{{ $errors->apply->first('email') }}</span>
                                             @endif
@@ -62,11 +67,11 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="custom-control custom-radio custom-control-inline">
-                                                    <input class="{{ ($errors->apply->has('gender'))?'is-invalid custom-control-input':'custom-control-input' }}" type="radio" value="male" id="male" name="gender" value = "1">
+                                                    <input class="{{ ($errors->apply->has('gender'))?'is-invalid custom-control-input':'custom-control-input' }}" type="radio" id="male" name="gender" value = "1" <?php echo (old('gender') == 1)? "checked":"" ?>>
                                                     <label class="custom-control-label" for="male">Male</label>
                                                 </div>
                                                 <div class="custom-control custom-radio custom-control-inline">
-                                                    <input class="{{ ($errors->apply->has('gender'))?'is-invalid custom-control-input':'custom-control-input' }}" type="radio" value="female" id="female" name="gender" value = "2">
+                                                    <input class="{{ ($errors->apply->has('gender'))?'is-invalid custom-control-input':'custom-control-input' }}" type="radio" id="female" name="gender" value = "2" <?php echo (old('gender') == 2)? "checked":"" ?>>
                                                     <label class="custom-control-label" for="female">Female</label>
                                                 </div>
                                                 @if ($errors->apply->has('gender'))
@@ -81,8 +86,9 @@
                                         <div class="form-group">
                                             <label for="roles">User Role</label>
                                             <select name="role" id="role" class="form-control">
+                                                <option value="">-----Select User role-----</option>
                                                 @foreach($userRoleArr as $key => $role)
-                                                <option value="{{$role}}">{{$key}}</option>
+                                                <option value="{{$key}}">{{$role}}</option>
                                                 @endforeach
                                             </select>
                                             @if ($errors->apply->has('roles'))

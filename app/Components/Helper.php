@@ -81,6 +81,6 @@ class Helper
      */
     public static function getUserRoleArr()
     {
-        return ['Sub-Admin'=>'SUB_ADMIN','Admin'=>'ADMIN','Devolper'=>'DEV','Quality analysis'=>'QA','Client'=>'CLIENT'];
+        return ['SUB_ADMIN'=>'Sub-Admin','ADMIN'=>'Admin','DEV'=>'Devolper','QA'=>'Quality analysis','CLIENT'=>'Client'];
     }
 }

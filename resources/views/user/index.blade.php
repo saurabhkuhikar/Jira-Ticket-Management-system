@@ -19,7 +19,17 @@
                         </div>            
                     </div>
                     <!-- /.card-header -->
+                    <div class = "pt10-pl20">
+                       <a href="{{route('user_add')}}" class="btn btn-info">Add User</a>
+                    </div>
                     <div class="card-body ">
+                        <!-- Alert message (start) -->
+                        @if(Session::has('user_update'))
+                            <div class="alert {{ Session::get('alert-class') }}">
+                                {{ Session::get('user_update') }}
+                            </div>
+                        @endif
+                        <!-- Alert message (end) -->
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr class="text-center">
@@ -27,7 +37,8 @@
                                 <th width="20%">Name</th>
                                 <th width="10%">email</th>
                                 <th width="5%">Gender</th>
-                                <th width="6%">Status</th>
+                                <th width="10%">Type</th>
+                                <th width="3%">Status</th>
                                 <th width="15%">Action</th>
                                 </tr>
                             </thead>
@@ -39,6 +50,7 @@
                                     <td>{{ $user->name}}</td>
                                     <td>{{ $user->email }}</td> 
                                     <td>{{ $genderArr[$user->gender] }}</td> 
+                                    <td>{{ $userRoleArr[$user->role] }}</td> 
                                     <td class="text-center">
                                         <?php  
                                         $class = ($user->active == 1) ? "text-success" : "text-danger";                                           

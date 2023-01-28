@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use App\Components\Helper;
 use App\Models\User;
 use Session;
@@ -20,7 +21,8 @@ class UserController extends Controller
         $userData = User::where('active',1)->orderBy('id', 'desc')->paginate(5);
         $userStatusArr = Helper::getStatusArr();
         $genderArr = Helper::genderArr();
-        return view('user.index',compact('userData','userStatusArr','genderArr'));
+        $userRoleArr = Helper::getUserRoleArr();
+        return view('user.index',compact('userData','userStatusArr','genderArr','userRoleArr'));
     }
 
     /**
@@ -42,7 +44,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $finalData = $request->except("_token");
+        $validator = Validator::make($finalData, ['name' => ['required','min:3', 'max:50'], 'email' => ['required','min:3', 'max:50','email'], 'password' => ['required', 'min:1', 'max:6'],'gender' => ['required'],'role'=>['required']]);
+        if ($validator->fails()) {
+            Session::flash('user_update', 'Data is not updated!');
+            Session::flash('alert-class', 'alert-danger');
+            return \Redirect::back()->withErrors($validator, 'apply')->withInput();
+        }
+        $clientsMsg = "User created succesfully.";
+        $className = 'alert-success';
+        $finalData['active'] = 1;
+        $finalData['remember_token'] = Str::random(20);
+        $saveStatus = User::saveUser($finalData);
+        if ($saveStatus == false) {
+            $clientsMsg = "User not created.";
+            $className = 'alert-danger';
+        }
+        Session::flash('user_update', $clientsMsg);
+        Session::flash('alert-class', $className);
+        return redirect()->route('user_index'); 
+
     }
 
     /**

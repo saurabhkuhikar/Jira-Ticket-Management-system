@@ -29,13 +29,13 @@
             <a href="{{route('home_page')}}" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p> Dashboard<i class="right fas fa-angle-left"></i></p>
             </a>
           </li>
-          <?php if (auth()->user()->roles == "ADMIN") { ?>
+          <?php if (auth()->user()->role == "ADMIN") { ?>
           <li class="nav-item">
             <a href="{{route('user_index')}}" class="nav-link"><p>Users</p></a>
           </li>  
           <?php } ?>        
           <li class="nav-item">
-            <a href="#" class="nav-link"><p>Clients</p></a>
+            <a href="#" class="nav-link"><p>Tickets</p></a>
           </li>          
           <li class="nav-item">
             <a href="#" class="nav-link"><p>Projects</p></a>
