@@ -45,6 +45,9 @@ Route::group(['prefix' => 'ticket', 'middleware' => ['auth']], function () {
         Route::get('delete/{id}', ['uses' => 'TicketsController@destroy'])->name('ticket_destroy');
         Route::get('view/{id}', ['uses' => 'TicketsController@view'])->name('ticket_view');    
         Route::post('/ticket-status', ['uses' => 'TicketsController@updateUserStutus'])->name('ticket_status');
-        Route::get('assign-ticket-index', ['uses' => 'TicketsController@assignTicketIndex'])->name('assign_index');    
+
+        /** */
+        Route::get('assign-ticket-add', ['uses' => 'TicketsController@assignTicketAdd'])->name('assign_ticket_add');    
+        Route::get('assign-ticket-index', ['uses' => 'TicketsController@assignTicketIndex'])->name('assign_ticket_index');    
     
     });

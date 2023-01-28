@@ -82,7 +82,8 @@ class TicketsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ticketArr = Ticket::find(decrypt($id));
+        return view('ticket.edit',compact('ticketArr'));
     }
 
     /**
@@ -113,6 +114,10 @@ class TicketsController extends Controller
      */
     public function assignTicketAdd()
     {
-        return view();
+        return view('ticket.assign_ticket');
+    }
+    public function assignTicketIndex()
+    {
+        return view('ticket.assign_index');
     }
 }
