@@ -83,4 +83,12 @@ class Helper
     {
         return ['SUB_ADMIN'=>'Sub-Admin','ADMIN'=>'Admin','DEV'=>'Devolper','QA'=>'Quality analysis','CLIENT'=>'Client'];
     }
+
+    /**
+     * Get the ticket status arry
+     */
+    public static function getTicketStatusArr()
+    {
+        return ['DEV'=>'DEV','QA'=>'QA','UAT'=>'UAT','PRD'=>'PRD','NA'=>'NA','PRIORITY'=>'PRIORITY'];
+    }
 }

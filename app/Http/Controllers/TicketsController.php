@@ -20,8 +20,9 @@ class TicketsController extends Controller
     public function index()
     {
         $userStatusArr = Helper::getStatusArr();
+        $allUserList = User :: getAllUserList();
         $ticketData = Ticket :: orderBy('id', 'desc')->paginate(5);
-        return view('ticket.index',compact('ticketData','userStatusArr'));
+        return view('ticket.index',compact('ticketData','userStatusArr','allUserList'));
     }
 
     /**
@@ -61,7 +62,7 @@ class TicketsController extends Controller
         }
         Session::flash('ticket_update', $clientsMsg);
         Session::flash('alert-class', $className);
-        return redirect()->route('user_index'); 
+        return redirect()->route('ticket_index'); 
     }
 
     /**
@@ -85,9 +86,9 @@ class TicketsController extends Controller
     {
         $qaUserList = User :: getUserList("QA");
         $devUserData = User :: getUserList("DEV");
-
+        $ticketStatusArr = Helper::getTicketStatusArr();
         $ticketArr = Ticket::find(decrypt($id));
-        return view('ticket.edit',compact('ticketArr','qaUserList','devUserData'));
+        return view('ticket.edit',compact('ticketArr','qaUserList','devUserData','ticketStatusArr'));
     }
 
     /**
@@ -99,7 +100,24 @@ class TicketsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $finalData = $request->except("_token");
+        $validator = Validator::make($finalData, ['ticket_no' => ['required','min:3', 'max:200'], 'summery' => ['required', 'min:1', 'max:100'],'due_date'=>['required']]);
+        if ($validator->fails()) {
+            Session::flash('ticket_update', 'Data is not updated!');
+            Session::flash('alert-class', 'alert-danger');
+            return \Redirect::back()->withErrors($validator, 'apply')->withInput();
+        }
+        $clientsMsg = "Ticket Details updated succesfully.";
+        $className = 'alert-success';
+        $saveStatus = Ticket::find(decrypt($id));
+        if (!$saveStatus->update($finalData)){  
+            $clientsMsg = 'Ticket Details not updated!';
+            $className = "alert-danger";
+            return \Redirect::back()->withInput();
+        }
+        Session::flash('ticket_update', $clientsMsg);
+        Session::flash('alert-class', $className);
+        return \Redirect::back();
     }
 
     /**

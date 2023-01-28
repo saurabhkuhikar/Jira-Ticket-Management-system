@@ -5,6 +5,7 @@
 use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
+use App\Components\Helper;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,14 +17,15 @@ use Illuminate\Support\Str;
 | model instances for testing / seeding your application's database.
 |
 */
-$pass = bcrypt("123456");
-$factory->define(User::class, function (Faker $faker) {
+$gender = Helper :: genderArr();
+$factory->define(App\Models\User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => $pass,
-        'role' => $role,
-        'remember_token' => Str::random(10),
+        'password' => bcrypt("123456"),
+        'role' => array_rand(['DEV'=>'DEV','QA'=>'QA']),
+        'gender' => array_rand(['1'=>1,'2'=>2]),
+        'active' => '1',
+        'remember_token' => Str::random(20),
     ];
 });

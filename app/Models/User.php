@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'roles', 'email', 'password', 'gender', 'active',
+        'name', 'email', 'role', 'email', 'password', 'gender', 'active',
     ];
 
     /**
@@ -52,6 +52,14 @@ class User extends Authenticatable
     public static function getUserList($role = "")
     {
         $userLisArr = User :: where([['active',1],['role',$role]])->orderBy('name')->get()->pluck('email','id');
+        return $userLisArr;
+    }
+    /**
+     * Get the user data as list of ids with reference of name
+     */
+    public static function getAllUserList()
+    {
+        $userLisArr = User :: orderBy('name')->get()->pluck('name','id');
         return $userLisArr;
     }
 }

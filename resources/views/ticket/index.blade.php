@@ -49,8 +49,8 @@
                                 <tr>
                                     <td class="text-center">{{ $sr++ }}</td>
                                     <td>{{ $user->ticket_no}}</td>
-                                    <td>{{ $user->dev_user_id }}</td> 
-                                    <td>{{ $user->qa_user_id }}</td> 
+                                    <td>{{ $allUserList[$user->dev_user_id] ?? "" }}</td> 
+                                    <td>{{ $allUserList[$user->qa_user_id] ?? "" }}</td> 
                                     <td>{{ $user->due_date }}</td> 
                                     <td>{{ $user->status }}</td> 
                                     <td class="text-center">

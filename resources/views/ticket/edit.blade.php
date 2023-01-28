@@ -11,7 +11,7 @@
                     <div class="col-md-9">
                         <div class="card">
                             <div class="card-header">
-                                <form action="{{route('ticket_store')}}" method="post" id='user'>
+                                <form action="{{route('ticket_update',encrypt($ticketArr->id))}}" method="post" id='user'>
                                 @csrf
                                 <div class="card-title">
                                     <legend style="color: green; font-weight: bold;">
@@ -37,6 +37,15 @@
                                             @endif
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="summery">Summery</label>
+                                            <input type="text" name="summery" id="summery" class="{{ ($errors->apply->has('summery'))?'is-invalid form-control':'form-control' }}" placeholder="Enter Your summery" value="{{$ticketArr->summery ?? NULL}}">
+                                            @if ($errors->apply->has('summery'))
+                                                <span class="invalid-feedback">{{ $errors->apply->first('summery') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -45,11 +54,11 @@
                                             <select name="qa_user_id" id="qa_user_id" class="form-control">
                                                 <option value="">-----Select QA -----</option>
                                                 @foreach($qaUserList as $key => $role)
-                                                <option value="{{$key}}">{{$role}}</option>
+                                                <option value="{{$key}}" <?= (isset($qaUserList[$ticketArr->qa_user_id]) ? "selected" : ""); ?>>{{$role}}</option>
                                                 @endforeach
                                             </select>
-                                            @if ($errors->apply->has('roles'))
-                                                <span class="invalid-feedback">{{ $errors->apply->first('roles') }}</span>
+                                            @if ($errors->apply->has('qa_user_id'))
+                                                <span class="invalid-feedback">{{ $errors->apply->first('qa_user_id') }}</span>
                                             @endif
                                         </div>
                                     </div>
@@ -59,25 +68,16 @@
                                             <select name="dev_user_id" id="dev_user_id" class="form-control">
                                                 <option value="">-----Select Dev -----</option>
                                                 @foreach($devUserData as $key => $role)
-                                                <option value="{{$key}}">{{$role}}</option>
+                                                <option value="{{$key}}" <?= (isset($devUserData[$ticketArr->dev_user_id]) ? "selected" : ""); ?>>{{$role}}</option>
                                                 @endforeach
                                             </select>
-                                            @if ($errors->apply->has('roles'))
-                                                <span class="invalid-feedback">{{ $errors->apply->first('roles') }}</span>
+                                            @if ($errors->apply->has('dev_user_id'))
+                                                <span class="invalid-feedback">{{ $errors->apply->first('dev_user_id') }}</span>
                                             @endif
                                         </div>
                                     </div>
                                 </div>                                
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="summery">Summery</label>
-                                            <input type="text" name="summery" id="summery" class="{{ ($errors->apply->has('summery'))?'is-invalid form-control':'form-control' }}" placeholder="Enter Your summery" value="{{$ticketArr->summery ?? NULL}}">
-                                            @if ($errors->apply->has('summery'))
-                                                <span class="invalid-feedback">{{ $errors->apply->first('summery') }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
+                                <div class="row">                                    
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Due Date</label>
@@ -91,6 +91,20 @@
                                                 @endif
                                             </div>
                                         </div>                    
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="status">Status</label>
+                                            <select name="status" id="status" class="form-control">
+                                                <option value="">-----Select ticket status -----</option>
+                                                @foreach($ticketStatusArr as $key => $status)
+                                                <option value="{{$key}}" <?= (($ticketArr->status == $key) ? "selected" : ""); ?>>{{$status}}</option>
+                                                @endforeach
+                                            </select>
+                                            @if ($errors->apply->has('status'))
+                                                <span class="invalid-feedback">{{ $errors->apply->first('status') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
