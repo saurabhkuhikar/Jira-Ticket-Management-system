@@ -3,7 +3,7 @@
     <div class="content-wrapper">
         <div class="content">
             <div class="container-fluid">
-            <div class="row mb-5 content-header">
+            <div class="row mb-3 content-header">
                 <div class="col-sm-6">
                 </div>
             </div>
@@ -38,7 +38,36 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="qa_user_id">Assign Quality analysis</label>
+                                            <select name="qa_user_id" id="qa_user_id" class="form-control">
+                                                <option value="">-----Select QA -----</option>
+                                                @foreach($qaUserList as $key => $role)
+                                                <option value="{{$key}}">{{$role}}</option>
+                                                @endforeach
+                                            </select>
+                                            @if ($errors->apply->has('roles'))
+                                                <span class="invalid-feedback">{{ $errors->apply->first('roles') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="dev_user_id">Assign Devolper</label>
+                                            <select name="dev_user_id" id="dev_user_id" class="form-control">
+                                                <option value="">-----Select Dev -----</option>
+                                                @foreach($devUserData as $key => $role)
+                                                <option value="{{$key}}">{{$role}}</option>
+                                                @endforeach
+                                            </select>
+                                            @if ($errors->apply->has('roles'))
+                                                <span class="invalid-feedback">{{ $errors->apply->first('roles') }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>                                
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -73,8 +102,7 @@
                                                 <span class="invalid-feedback">{{ $errors->apply->first('comment') }}</span>
                                             @endif
                                         </div>
-                                    </div>
-                                    
+                                    </div>                                    
                                 </div>
                                 <div class="card-footer">
                                     <div class="row">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Components\Helper;
@@ -82,8 +83,11 @@ class TicketsController extends Controller
      */
     public function edit($id)
     {
+        $qaUserList = User :: getUserList("QA");
+        $devUserData = User :: getUserList("DEV");
+
         $ticketArr = Ticket::find(decrypt($id));
-        return view('ticket.edit',compact('ticketArr'));
+        return view('ticket.edit',compact('ticketArr','qaUserList','devUserData'));
     }
 
     /**
@@ -107,17 +111,5 @@ class TicketsController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    /**
-     * 
-     */
-    public function assignTicketAdd()
-    {
-        return view('ticket.assign_ticket');
-    }
-    public function assignTicketIndex()
-    {
-        return view('ticket.assign_index');
     }
 }

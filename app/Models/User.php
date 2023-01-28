@@ -45,4 +45,13 @@ class User extends Authenticatable
         }
         return true;
     }
+
+    /**
+     * Get the user data as list of ids with reference of name
+     */
+    public static function getUserList($role = "")
+    {
+        $userLisArr = User :: where([['active',1],['role',$role]])->orderBy('name')->get()->pluck('email','id');
+        return $userLisArr;
+    }
 }

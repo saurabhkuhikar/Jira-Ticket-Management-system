@@ -36,10 +36,7 @@
           <?php } ?>        
           <li class="nav-item">
             <a href="{{route('ticket_index')}}" class="nav-link"><p>Tickets</p></a>
-          </li>
-          <li class="nav-item">
-            <a href="{{route('assign_ticket_index')}}" class="nav-link"><p>Assign Tickets</p></a>
-          </li>          
+          </li>         
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
