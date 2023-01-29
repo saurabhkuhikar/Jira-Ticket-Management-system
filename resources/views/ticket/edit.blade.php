@@ -54,7 +54,7 @@
                                             <select name="qa_user_id" id="qa_user_id" class="form-control">
                                                 <option value="">-----Select QA -----</option>
                                                 @foreach($qaUserList as $key => $role)
-                                                <option value="{{$key}}" <?= (isset($qaUserList[$ticketArr->qa_user_id]) ? "selected" : ""); ?>>{{$role}}</option>
+                                                <option value="{{$key}}" <?= (($key == $ticketArr->qa_user_id) ? "selected" : ""); ?>>{{$role}}</option>
                                                 @endforeach
                                             </select>
                                             @if ($errors->apply->has('qa_user_id'))
@@ -68,7 +68,7 @@
                                             <select name="dev_user_id" id="dev_user_id" class="form-control">
                                                 <option value="">-----Select Dev -----</option>
                                                 @foreach($devUserData as $key => $role)
-                                                <option value="{{$key}}" <?= (isset($devUserData[$ticketArr->dev_user_id]) ? "selected" : ""); ?>>{{$role}}</option>
+                                                <option value="{{$key}}" <?= (($key == $ticketArr->dev_user_id) ? "selected" : ""); ?>>{{$role}}</option>
                                                 @endforeach
                                             </select>
                                             @if ($errors->apply->has('dev_user_id'))
@@ -83,9 +83,9 @@
                                             <label>Due Date</label>
                                             <div class="input-group date" id="reservationdate">
                                                 <input type="text" name="due_date" class="{{ ($errors->apply->has('due_date')) ? 'is-invalid form-control':'form-control'}}" data-target="reservationdate" autocomplete="off" placeholder = "Select Due date" value="<?= $ticketArr->due_date ?? NULL ?>" />
-                                                <div class="input-group-append" data-target="reservationdate" data-toggle="datetimepicker">
-                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
+                                                <div class="input-group-append input-group-text">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
                                                 @if ($errors->apply->has('due_date'))
                                                     <span class="invalid-feedback">{{ $errors->apply->first('due_date') }}</span>
                                                 @endif
@@ -144,7 +144,7 @@
         $('#reservationdate').datepicker({
             autoclose:true,
             format: 'yyyy-mm-dd',
-            top: "70%"
+            top: '229px'
         });
     });
 </script>

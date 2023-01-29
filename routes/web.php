@@ -47,7 +47,7 @@ Route::group(['prefix' => 'ticket', 'middleware' => ['auth']], function () {
         Route::post('/ticket-status', ['uses' => 'TicketsController@updateUserStutus'])->name('ticket_status');
 
         /** */
-        Route::get('assign-ticket-add', ['uses' => 'TicketsController@assignTicketAdd'])->name('assign_ticket_add');    
-        Route::get('assign-ticket-index', ['uses' => 'TicketsController@assignTicketIndex'])->name('assign_ticket_index');    
+        Route::get('assign-ticket-add/{id}', ['uses' => 'TicketsController@assignTicketAdd'])->name('assign_ticket_add');    
+        Route::post('assign-ticket-store/{id}', ['uses' => 'TicketsController@assignTicketStore'])->name('assign_ticket_store');    
     
     });

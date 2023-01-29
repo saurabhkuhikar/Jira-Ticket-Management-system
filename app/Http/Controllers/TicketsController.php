@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Components\Helper;
 use App\Models\Ticket;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use App\Components\Helper;
 use Session;
 use Auth;
 class TicketsController extends Controller
@@ -20,9 +20,9 @@ class TicketsController extends Controller
     public function index()
     {
         $userStatusArr = Helper::getStatusArr();
-        $allUserList = User :: getAllUserList();
-        $ticketData = Ticket :: orderBy('id', 'desc')->paginate(5);
-        return view('ticket.index',compact('ticketData','userStatusArr','allUserList'));
+        $allUserList = User::getAllUserList();
+        $ticketData = Ticket::orderBy('id', 'desc')->paginate(5);
+        return view('ticket.index', compact('ticketData', 'userStatusArr', 'allUserList'));
     }
 
     /**
@@ -46,7 +46,7 @@ class TicketsController extends Controller
         $finalData = $request->except("_token");
         $finalData['active'] = 1;
         $finalData['remember_token'] = Str::random(20);
-        $validator = Validator::make($finalData, ['ticket_no' => ['required','min:3', 'max:200'], 'summery' => ['required', 'min:1', 'max:100'],'due_date'=>['required']]);
+        $validator = Validator::make($finalData, ['ticket_no' => ['required', 'min:3', 'max:200'], 'summery' => ['required', 'min:1', 'max:100'], 'due_date' => ['required']]);
         if ($validator->fails()) {
             Session::flash('ticket_update', 'Data is not updated!');
             Session::flash('alert-class', 'alert-danger');
@@ -62,7 +62,7 @@ class TicketsController extends Controller
         }
         Session::flash('ticket_update', $clientsMsg);
         Session::flash('alert-class', $className);
-        return redirect()->route('ticket_index'); 
+        return redirect()->route('ticket_index');
     }
 
     /**
@@ -84,11 +84,11 @@ class TicketsController extends Controller
      */
     public function edit($id)
     {
-        $qaUserList = User :: getUserList("QA");
-        $devUserData = User :: getUserList("DEV");
+        $qaUserList = User::getUserList("QA");
+        $devUserData = User::getUserList("DEV");
         $ticketStatusArr = Helper::getTicketStatusArr();
         $ticketArr = Ticket::find(decrypt($id));
-        return view('ticket.edit',compact('ticketArr','qaUserList','devUserData','ticketStatusArr'));
+        return view('ticket.edit', compact('ticketArr', 'qaUserList', 'devUserData', 'ticketStatusArr'));
     }
 
     /**
@@ -101,7 +101,7 @@ class TicketsController extends Controller
     public function update(Request $request, $id)
     {
         $finalData = $request->except("_token");
-        $validator = Validator::make($finalData, ['ticket_no' => ['required','min:3', 'max:200'], 'summery' => ['required', 'min:1', 'max:100'],'due_date'=>['required']]);
+        $validator = Validator::make($finalData, ['ticket_no' => ['required', 'min:3', 'max:200'], 'summery' => ['required', 'min:1', 'max:100'], 'due_date' => ['required']]);
         if ($validator->fails()) {
             Session::flash('ticket_update', 'Data is not updated!');
             Session::flash('alert-class', 'alert-danger');
@@ -110,7 +110,7 @@ class TicketsController extends Controller
         $clientsMsg = "Ticket Details updated succesfully.";
         $className = 'alert-success';
         $saveStatus = Ticket::find(decrypt($id));
-        if (!$saveStatus->update($finalData)){  
+        if (!$saveStatus->update($finalData)) {
             $clientsMsg = 'Ticket Details not updated!';
             $className = "alert-danger";
             return \Redirect::back()->withInput();
@@ -129,5 +129,46 @@ class TicketsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Assigned user
+     * @param int $id
+     *
+     */
+    public function assignTicketAdd($id = null)
+    {
+        $qaUserList = User::getUserList("QA");
+        $devUserData = User::getUserList("DEV");
+        $ticketArr = Ticket::find(decrypt($id));
+        return view('ticket.assign_ticket_user', compact('id','qaUserList','devUserData','ticketArr'));
+    }
+
+    /**
+     * Assigned user for a tickets
+     * @param $request,$id 
+     * @request Post
+     */
+    public function assignTicketStore(Request $request,$id)
+    {
+        $finalData = $request->except("_token");
+        $validator = Validator::make($finalData, ['qa_user_id' => ['required'], 'dev_user_id' => ['required']],['qa_user_id.required' => 'Please selected QA.']);
+        if ($validator->fails()) {
+            Session::flash('ticket_update', 'Data is not updated!');
+            Session::flash('alert-class', 'alert-danger');
+            return \Redirect::back()->withErrors($validator, 'apply')->withInput();
+        }
+        $ticketArr = Ticket::find(decrypt($id));
+        $ticketNo = substr($ticketArr->ticket_no,0,8);
+        $clientsMsg = "User assigned on ticket {$ticketNo} succesfully.";
+        $className = 'alert-success';
+        if (!$ticketArr->update($finalData)) {
+            $clientsMsg = 'User not assigned!';
+            $className = "alert-danger";
+            return \Redirect::back()->withInput();
+        }
+        Session::flash('ticket_update', $clientsMsg);
+        Session::flash('alert-class', $className);
+        return \Redirect::back();
     }
 }

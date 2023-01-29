@@ -35,8 +35,8 @@
                                 <tr class="text-center">
                                 <th width="3%">Sr. No</th>
                                 <th width="20%">Ticket No.</th>
-                                <th width="10%">QA Name</th>
                                 <th width="10%">Dev Name</th>
+                                <th width="10%">QA Name</th>
                                 <th width="10%">due_date</th>
                                 <th width="3%">Status</th>
                                 <th width="3%">Active</th>
@@ -60,9 +60,10 @@
                                         <a href="#" user-data = "{{$user->id}}" user-status ="{{$user->active}}"  onClick="updateUser(this);" ><i class="fa fa-circle <?= $class ?>" title =" {{$userStatusArr[$user->active] }}" ></i></a>
                                     </td> 
                                     <td class="text-center">
-                                            <a href="{{ route('ticket_destroy',encrypt($user->id)) }}" role="button" class="btn btn-danger" onClick="if(!confirm('Do you want to delete?')){ return false;}" title = "Delete" ><i class="fas fa-trash"></i></a>                                            
-                                            <a href = "{{ route('ticket_view',encrypt($user->id)) }}" role="button" class="btn btn-secondary" title="View"  title = "View"><i class="fas fa-folder"></i></a>
-                                            <a href = "{{ route('ticket_edit',encrypt($user->id)) }}" role="button" class="btn b btn-info" title="Edit" title = "Edit"><i class="fas fa-edit"></i></a>
+                                            <a href = "{{ route('ticket_edit',encrypt($user->id)) }}" role="button" class="" title="Edit" ><i class="fas fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
+                                            <a href="{{ route('ticket_destroy',encrypt($user->id)) }}" role="button" class="" onClick="if(!confirm('Do you want to delete?')){ return false;}" title = "Delete" ><i class="fas fa-trash"></i></a>&nbsp;&nbsp;&nbsp;                                           
+                                            <a href = "{{ route('ticket_view',encrypt($user->id)) }}" role="button" class="" title="View"><i class="fas fa-folder"></i></a>&nbsp;&nbsp;&nbsp;                                                        
+                                            <a href = "{{ route('assign_ticket_add',encrypt($user->id)) }}" role="button" class="" title="Assigned user"><i class="fas fa-user"></i></a>                                           
                                     </td>
                                 </tr>
                                 @endforeach
