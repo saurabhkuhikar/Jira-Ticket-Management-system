@@ -8,10 +8,15 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Gate;
 use Session;
 use Auth;
 class TicketsController extends Controller
 {
+    public function __construct()
+    {
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -82,8 +87,11 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id,User $user)
     {
+        if (! Gate::allows('update-ticket', $user)) {
+            abort(403);
+        }
         $qaUserList = User::getUserList("QA");
         $devUserData = User::getUserList("DEV");
         $ticketStatusArr = Helper::getTicketStatusArr();

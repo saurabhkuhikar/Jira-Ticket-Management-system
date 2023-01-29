@@ -29,11 +29,11 @@
             <a href="{{route('home_page')}}" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p> Dashboard<i class="right fas fa-angle-left"></i></p>
             </a>
           </li>
-          <?php if (auth()->user()->role == "ADMIN") { ?>
+          @can('view-user', auth()->user())
           <li class="nav-item">
             <a href="{{route('user_index')}}" class="nav-link"><p>Users</p></a>
           </li>  
-          <?php } ?>        
+          @endcan      
           <li class="nav-item">
             <a href="{{route('ticket_index')}}" class="nav-link"><p>Tickets</p></a>
           </li>         

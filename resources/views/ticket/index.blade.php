@@ -20,7 +20,9 @@
                     </div>
                     <!-- /.card-header -->
                     <div class = "pt10-pl20">
-                       <a href="{{route('ticket_add')}}" class="btn btn-info">Add User</a>
+                    @can('create-ticket', auth()->user())
+                       <a href="{{route('ticket_add')}}" class="btn btn-info">Create Ticket</a>
+                    @endcan
                     </div>
                     <div class="card-body ">
                         <!-- Alert message (start) -->
@@ -60,10 +62,18 @@
                                         <a href="#" user-data = "{{$user->id}}" user-status ="{{$user->active}}"  onClick="updateUser(this);" ><i class="fa fa-circle <?= $class ?>" title =" {{$userStatusArr[$user->active] }}" ></i></a>
                                     </td> 
                                     <td class="text-center">
+                                        @can('update-ticket', auth()->user())
                                             <a href = "{{ route('ticket_edit',encrypt($user->id)) }}" role="button" class="" title="Edit" ><i class="fas fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
-                                            <a href="{{ route('ticket_destroy',encrypt($user->id)) }}" role="button" class="" onClick="if(!confirm('Do you want to delete?')){ return false;}" title = "Delete" ><i class="fas fa-trash"></i></a>&nbsp;&nbsp;&nbsp;                                           
-                                            <a href = "{{ route('ticket_view',encrypt($user->id)) }}" role="button" class="" title="View"><i class="fas fa-folder"></i></a>&nbsp;&nbsp;&nbsp;                                                        
-                                            <a href = "{{ route('assign_ticket_add',encrypt($user->id)) }}" role="button" class="" title="Assigned user"><i class="fas fa-user"></i></a>                                           
+                                        @endcan
+                                        @can('delete-ticket', auth()->user())
+                                            <a href="{{ route('ticket_destroy',encrypt($user->id)) }}" role="button" class="" onClick="if(!confirm('Do you want to delete?')){ return false;}" title = "Delete" ><i class="fas fa-trash"></i></a>&nbsp;&nbsp;&nbsp;
+                                        @endcan
+                                        @can('view-ticket', auth()->user())
+                                            <a href = "{{ route('ticket_view',encrypt($user->id)) }}" role="button" class="" title="View"><i class="fas fa-folder"></i></a>&nbsp;&nbsp;&nbsp;
+                                        @endcan
+                                        @can('assign-ticket', auth()->user())
+                                            <a href = "{{ route('assign_ticket_add',encrypt($user->id)) }}" role="button" class="" title="Assigned user"><i class="fas fa-user"></i></a>   
+                                        @endcan
                                     </td>
                                 </tr>
                                 @endforeach
