@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Components\Helper;
+use Illuminate\Support\Facades\Gate;
 use App\Models\User;
 use Session;
 use Auth;
@@ -18,6 +19,9 @@ class UserController extends Controller
      */
     public function index()
     {
+        if (! Gate::allows('view-user')) {
+            abort(403);
+        }
         $userData = User::where('active',1)->orderBy('id', 'desc')->paginate(5);
         $userStatusArr = Helper::getStatusArr();
         $genderArr = Helper::genderArr();
@@ -32,6 +36,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        if (! Gate::allows('create-user')) {
+            abort(403);
+        }
         $userRoleArr = Helper::getUserRoleArr();
         return view('user.add',compact('userRoleArr'))->render();
     }
@@ -53,8 +60,9 @@ class UserController extends Controller
         }
         $clientsMsg = "User created succesfully.";
         $className = 'alert-success';
-        $finalData['active'] = 1;
+        $finalData['password'] = (isset($finalData['password']) ? bcrypt($finalData['password']) : "");
         $finalData['remember_token'] = Str::random(20);
+        $finalData['active'] = 1;
         $saveStatus = User::saveUser($finalData);
         if ($saveStatus == false) {
             $clientsMsg = "User not created.";
@@ -108,7 +116,19 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (! Gate::allows('delete-user')) {
+            abort(403);
+        }
+        $deleteStatus = User::find(decrypt($id))->delete();
+        $userMsg = "User deleted successfully";
+        $className = 'alert-success';
+        if ($deleteStatus == false) {
+            $userMsg = "User not deleted";
+            $className = "alert-danger";
+        }
+        Session::flash('user_update', $userMsg);
+        Session::flash('alert-class', $className);
+        return redirect()->route('user_index');
     }
 
     /**

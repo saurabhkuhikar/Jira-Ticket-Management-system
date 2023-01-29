@@ -37,6 +37,9 @@ class TicketsController extends Controller
      */
     public function create()
     {
+        // if (! Gate::allows('create-ticket')) {
+        //     abort(403);
+        // }
         return view('ticket.add');
     }
 
@@ -89,9 +92,6 @@ class TicketsController extends Controller
      */
     public function edit($id,User $user)
     {
-        if (! Gate::allows('update-ticket', $user)) {
-            abort(403);
-        }
         $qaUserList = User::getUserList("QA");
         $devUserData = User::getUserList("DEV");
         $ticketStatusArr = Helper::getTicketStatusArr();
@@ -140,7 +140,19 @@ class TicketsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (! Gate::allows('delete-ticket')) {
+            abort(403);
+        }
+        $deleteStatus = Ticket::find(decrypt($id))->delete();
+        $userMsg = "User deleted successfully";
+        $className = 'alert-success';
+        if ($deleteStatus == false) {
+            $userMsg = "User not deleted";
+            $className = "alert-danger";
+        }
+        Session::flash('user_update', $userMsg);
+        Session::flash('alert-class', $className);
+        return redirect()->route('user_index');
     }
 
     /**

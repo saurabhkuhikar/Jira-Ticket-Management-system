@@ -6,9 +6,15 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * when you want to soft delete the record then load this facade
+ */
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'role', 'email', 'password', 'gender', 'active',
+        'name', 'email', 'role', 'email', 'password', 'gender', 'active','remember_token'
     ];
 
     /**
@@ -27,6 +33,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    /**
+    * The attributes that should be mutated to dates.
+    * when you want to soft delete this field is added in table and this will be store the date of delete
+    * @var array
+    */
+    protected $dates = ['deleted_at'];
 
     public static function getAllUserData()
     {

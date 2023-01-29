@@ -16,13 +16,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('login', ['uses' => 'UserController@logPage'])->name('login');
-Route::get('logout', ['uses' => 'UserController@logout'])->name('logout');
-Route::get('home', ['uses' => 'HomeController@home'])->name('home_page');
-Route::get('dashboard', ['uses' => 'HomeController@dashboard'])->name('dashboard');
-Route::post('login-submit', ['uses' => 'UserController@logSubmit'])->name('user_authenticate');
 
-Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
+Route::get('login', ['uses' => 'UserController@logPage'])->name('login');
+
+Route::middleware(['checkStatus'])->group(function(){
+    Route::get('logout', ['uses' => 'UserController@logout'])->name('logout');
+    Route::get('home', ['uses' => 'HomeController@home'])->name('home_page');
+    Route::get('dashboard', ['uses' => 'HomeController@dashboard'])->name('dashboard');
+    Route::post('login-submit', ['uses' => 'UserController@logSubmit'])->name('user_authenticate');
+});
+
+Route::group(['prefix' => 'user', 'middleware' => ['auth','checkStatus']], function () {
 /* add user */
     Route::get('add', ['uses' => 'UserController@create'])->name('user_add');
     Route::get('index', ['uses' => 'UserController@index'])->name('user_index');
@@ -35,7 +39,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     Route::post('/user-status', ['uses' => 'UserController@updateUserStutus'])->name('user_status');
 
 });
-Route::group(['prefix' => 'ticket', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'ticket', 'middleware' => ['auth','role:ADMIN,SUB_ADMIN']], function () {
     /* add user */
         Route::get('add', ['uses' => 'TicketsController@create'])->name('ticket_add');
         Route::get('index', ['uses' => 'TicketsController@index'])->name('ticket_index');

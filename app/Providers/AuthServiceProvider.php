@@ -42,7 +42,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('update-ticket', 'App\Policies\TicketPolicy@update');
         Gate::define('create-ticket', 'App\Policies\TicketPolicy@create');
         Gate::define('view-ticket', 'App\Policies\TicketPolicy@view');
-        Gate::define('delete-ticket', 'App\Policies\TicketPolicy@create');
+        Gate::define('delete-ticket', 'App\Policies\TicketPolicy@delete');
         Gate::define('assign-ticket', 'App\Policies\TicketPolicy@assigneUser');
     }
 }

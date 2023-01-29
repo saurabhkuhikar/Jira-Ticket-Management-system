@@ -23,7 +23,7 @@ class TicketPolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->role == "ADMIN" || $user->role == "CLIENT") {
+        if ($user->role == "CLIENT" || $user->role == "DEV") {
             return true;
         }
     }
@@ -37,7 +37,7 @@ class TicketPolicy
      */
     public function view(User $user)
     {
-        if ($user->role == "ADMIN" || $user->role == "CLIENT") {
+        if ($user->role == "CLIENT" || $user->role == "DEV") {
             return true;
         }
     }
@@ -51,7 +51,7 @@ class TicketPolicy
     public function create(User $user)
     {
         //
-        if ($user->role == "ADMIN" || $user->role == "CLIENT") {
+        if ($user->role == "CLIENT" || $user->role == "ADMIN") {
             return true;
         }
     }
@@ -66,7 +66,7 @@ class TicketPolicy
     public function update(User $user)
     {
         //
-        if ($user->role == "ADMIN") {
+        if ($user->role == "CLIENT" || $user->role == "ADMIN") {
             return true;
         }
     }
@@ -80,10 +80,7 @@ class TicketPolicy
      */
     public function delete(User $user)
     {
-        //
-        if ($user->role == "ADMIN") {
-            return true;
-        }
+
     }
 
     /**
@@ -118,9 +115,6 @@ class TicketPolicy
      */
     public function assigneUser(User $user)
     {
-        //
-        if ($user->role == "ADMIN") {
-            return true;
-        }
+
     }
 }
