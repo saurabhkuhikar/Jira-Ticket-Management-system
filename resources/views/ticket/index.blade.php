@@ -30,14 +30,14 @@
                             </div>
                         @endif
                         <!-- Alert message (end) -->
-                        <table class="table table-bordered table-hover">
+                        <table class="table table-bordered table-hover" width="100%">
                             <thead>
                                 <tr class="text-center">
                                 <th width="5%">Sr. No</th>
-                                <th width="25%">Ticket No.</th>
+                                <th width="20%">Ticket No.</th>
                                 <th width="20%">Dev Name</th>
                                 <th width="20%">QA Name</th>
-                                <th width="10%">due_date</th>
+                                <th width="15%">Due Date</th>
                                 <th width="5%">Status</th>
                                 <th width="5%">Active</th>
                                 <th width="10%">Action</th>
