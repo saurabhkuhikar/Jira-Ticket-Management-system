@@ -33,14 +33,14 @@
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr class="text-center">
-                                <th width="3%">Sr. No</th>
-                                <th width="20%">Ticket No.</th>
-                                <th width="10%">Dev Name</th>
-                                <th width="10%">QA Name</th>
+                                <th width="5%">Sr. No</th>
+                                <th width="25%">Ticket No.</th>
+                                <th width="20%">Dev Name</th>
+                                <th width="20%">QA Name</th>
                                 <th width="10%">due_date</th>
-                                <th width="3%">Status</th>
-                                <th width="3%">Active</th>
-                                <th width="12%">Action</th>
+                                <th width="5%">Status</th>
+                                <th width="5%">Active</th>
+                                <th width="10%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

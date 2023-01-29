@@ -46,7 +46,7 @@ class TicketsController extends Controller
         $finalData = $request->except("_token");
         $finalData['active'] = 1;
         $finalData['remember_token'] = Str::random(20);
-        $validator = Validator::make($finalData, ['ticket_no' => ['required', 'min:3', 'max:200'], 'summery' => ['required', 'min:1', 'max:100'], 'due_date' => ['required']]);
+        $validator = Validator::make($finalData, ['ticket_no' => ['required', 'min:3', 'max:200'], 'summery' => ['required', 'min:1', 'max:100'], 'due_date' => ['required','date','after:tomorrow']]);
         if ($validator->fails()) {
             Session::flash('ticket_update', 'Data is not updated!');
             Session::flash('alert-class', 'alert-danger');
@@ -101,7 +101,7 @@ class TicketsController extends Controller
     public function update(Request $request, $id)
     {
         $finalData = $request->except("_token");
-        $validator = Validator::make($finalData, ['ticket_no' => ['required', 'min:3', 'max:200'], 'summery' => ['required', 'min:1', 'max:100'], 'due_date' => ['required']]);
+        $validator = Validator::make($finalData, ['ticket_no' => ['required', 'min:3', 'max:200'], 'summery' => ['required', 'min:1', 'max:100'], 'due_date' => ['required','date']]);
         if ($validator->fails()) {
             Session::flash('ticket_update', 'Data is not updated!');
             Session::flash('alert-class', 'alert-danger');
