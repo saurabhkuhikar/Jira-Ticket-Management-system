@@ -31,26 +31,20 @@ class UserController extends Controller
 
     public function search(Request $request)
     {
-        // if (isset($name) and !empty($name)) {
-        //     $userData->orWhere('name','Like',"'%{$name}%'");
-        // }
-        // if (isset($email) and !empty($email)) {
-        //     $userData->orWhere('email','Like',"%{$email}%");
-        // }
-        // if (isset($type) and !empty($type)) {
-        //     $userData->orWhere('type','=',$type);
-        // }
         $inputArr = $request->except("_token");
-        $userDataObj = new User();
-        if (!empty($inputArr['name'])) {
-            $userDataObj->append('name','LIKE',"%{$inputArr['name']}%");
+
+        $userData = User::query();
+        if (isset($inputArr['name']) and !empty($inputArr['name'])) {
+            $userData->where('name','LIKE',"%{$inputArr['name']}%");
         }
-        if (!empty($inputArr['type'])) {
-            // $userDataObj->orWhere('role','=',"{$inputArr['type']}");
+        if (isset($inputArr['email']) and !empty($inputArr['email'])) {
+            $userData->where('email','LIKE',"%{$inputArr['email']}%");
         }
-        // ->orWhere('email','Like',"%{$inputArr['email']}%")
-        $userData = $userDataObj->toSql();
-        $userData = $userDataObj->orderBy('id', 'desc')->paginate(5);
+        if (isset($inputArr['role']) and !empty($inputArr['role'])) {
+            $userData->where('role','=',$inputArr['role']);
+        }
+
+        $userData = $userData->orderBy('id', 'desc')->paginate(5);
         $userStatusArr = Helper::getStatusArr();
         $genderArr = Helper::genderArr();
         $userRoleArr = Helper::getUserRoleArr();

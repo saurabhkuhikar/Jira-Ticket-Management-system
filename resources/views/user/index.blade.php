@@ -36,7 +36,7 @@
                                        <td><input type="text" name="name" id="name" class="form-control"></td> 
                                        <td><input type="text" name="email" id="email" class="form-control"></td> 
                                        <td>
-                                        <select name="type" id="type" class="form-control">
+                                        <select name="role" id="role" class="form-control">
                                             <option value="">Select user type</option>
                                             @foreach($userRoleArr as $key=> $value)
                                             <option value="{{$key}}">{{$value}}</option>
@@ -71,7 +71,7 @@
                                 <tr class="text-center">
                                 <th width="3%">Sr. No</th>
                                 <th width="20%">Name</th>
-                                <th width="10%">email</th>
+                                <th width="10%">Email</th>
                                 <th width="10%">Type</th>
                                 <th width="3%">Status</th>
                                 <th width="15%">Action</th>
