@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Input;
 use Session;
 use Auth;
 class TicketsController extends Controller
@@ -24,10 +25,24 @@ class TicketsController extends Controller
      */
     public function index()
     {
+        $inputArr = request()->except("_token");
+
+        $ticketData = Ticket::query();
+        if (isset($inputArr['ticket_no']) and !empty($inputArr['ticket_no'])) {
+            $ticketData->where('ticket_no','LIKE',"%{$inputArr['ticket_no']}%");
+        }
+        if (isset($inputArr['due_date']) and !empty($inputArr['due_date'])) {
+            $ticketData->where('due_date','=',"{$inputArr['due_date']}");
+        }
+        if (isset($inputArr['status']) and !empty($inputArr['status'])) {
+            $ticketData->where('status','=',$inputArr['status']);
+        }
         $userStatusArr = Helper::getStatusArr();
         $allUserList = User::getAllUserList();
-        $ticketData = Ticket::orderBy('id', 'desc')->paginate(5);
-        return view('ticket.index', compact('ticketData', 'userStatusArr', 'allUserList'));
+        $ticketStatusArr = Helper::getTicketStatusArr();
+        $ticketData = $ticketData->orderBy('id', 'desc')->paginate(5);
+
+        return view('ticket.index', compact('ticketData', 'userStatusArr', 'allUserList','ticketStatusArr'));
     }
 
     /**

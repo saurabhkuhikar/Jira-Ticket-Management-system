@@ -22,16 +22,7 @@ class UserController extends Controller
         if (! Gate::allows('view-user')) {
             abort(403);
         }
-        $userData = User::orderBy('id', 'desc')->paginate(5);
-        $userStatusArr = Helper::getStatusArr();
-        $genderArr = Helper::genderArr();
-        $userRoleArr = Helper::getUserRoleArr();
-        return view('user.index',compact('userData','userStatusArr','genderArr','userRoleArr'));
-    }
-
-    public function search(Request $request)
-    {
-        $inputArr = $request->except("_token");
+        $inputArr = request()->except("_token");
 
         $userData = User::query();
         if (isset($inputArr['name']) and !empty($inputArr['name'])) {
@@ -50,6 +41,7 @@ class UserController extends Controller
         $userRoleArr = Helper::getUserRoleArr();
         return view('user.index',compact('userData','userStatusArr','genderArr','userRoleArr'));
     }
+
     /**
      * Show the form for creating a new resource.
      *

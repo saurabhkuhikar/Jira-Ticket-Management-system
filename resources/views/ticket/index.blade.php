@@ -19,6 +19,53 @@
                         </div>            
                     </div>
                     <!-- /.card-header -->
+
+                    
+                    <div class="pt-10">
+                        <form action="{{route('ticket_index')}}" method="get" id="serach" class="form-inline text-center" role="search">
+                            @csrf
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                    <th>Ticket No.</th>
+                                    <th>Dev Name</th>
+                                    <th>QA Name</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>                                       
+                                        <td><input type="text" name="ticket_no" id="ticket_no" class="form-control"></td> 
+                                        <td><input type="text" name="dev_name" id="dev_name" class="form-control"></td> 
+                                        <td><input type="text" name="qa_name" id="qa_name" class="form-control"></td> 
+                                        <td width="20%"><div class="input-group date" id="reservationdate">
+                                                <input type="text" name="due_date" class="form-control" data-target="reservationdate" autocomplete="off" placeholder = "Select Due date" value="<?= $ticketArr->due_date ?? NULL ?>" />
+                                                <div class="input-group-append input-group-text">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><select name="status" id="status" class="form-control">
+                                            <option value="">Select ticket status</option>
+                                            @foreach($ticketStatusArr as $key=> $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
+                                        </select>
+
+                                        </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" align="center">
+                                            <div class="pt-10">
+                                                <button type="submit" class="btn btn-info" class="">Search</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
                     <div class = "pt10-pl20">
                     @can('create-ticket', auth()->user())
                        <a href="{{route('ticket_add')}}" class="btn btn-info">Create Ticket</a>
@@ -117,6 +164,14 @@
 
 @section('pagespecificscripts')
 <script>
+//Date range picker
+$(function () {
+    $('#reservationdate').datepicker({
+        autoclose:true,
+        format: 'yyyy-mm-dd',
+        top: '229px'
+    });
+});
 $(document).ready(function (){    
      
 });
@@ -159,7 +214,6 @@ function updateUser(obj) {
         }
     });
 }
-
 
     
 </script>

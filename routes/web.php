@@ -38,7 +38,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth','checkStatus']], funct
 
     Route::post('/user-status', ['uses' => 'UserController@updateUserStutus'])->name('user_status');
 
-    Route::post('user-search', ['uses' => 'UserController@search'])->name('user_search');
+    // Route::post('user-search', ['uses' => 'UserController@search'])->name('user_search');
 
 });
 Route::group(['prefix' => 'ticket', 'middleware' => ['auth','role:ADMIN,SUB_ADMIN']], function () {
@@ -51,6 +51,7 @@ Route::group(['prefix' => 'ticket', 'middleware' => ['auth','role:ADMIN,SUB_ADMI
         Route::get('delete/{id}', ['uses' => 'TicketsController@destroy'])->name('ticket_destroy');
         Route::get('view/{id}', ['uses' => 'TicketsController@view'])->name('ticket_view');    
         Route::post('/ticket-status', ['uses' => 'TicketsController@updateUserStutus'])->name('ticket_status');
+        Route::get('ticket-search', ['uses' => 'TicketsController@search'])->name('ticket_search');
 
         /** */
         Route::get('assign-ticket-add/{id}', ['uses' => 'TicketsController@assignTicketAdd'])->name('assign_ticket_add');    

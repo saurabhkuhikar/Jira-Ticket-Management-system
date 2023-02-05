@@ -21,7 +21,7 @@
                     <!-- /.card-header -->
                     
                     <div class="pt-10">
-                        <form action="{{route('user_search')}}" method="post" id="serach" class="form-inline text-center" role="search">
+                        <form action="{{route('user_index')}}" method="get" id="serach" class="form-inline text-center" role="search">
                             @csrf
                             <table width="100%">
                                 <thead>
