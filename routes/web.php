@@ -38,6 +38,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth','checkStatus']], funct
 
     Route::post('/user-status', ['uses' => 'UserController@updateUserStutus'])->name('user_status');
 
+    Route::post('user-search', ['uses' => 'UserController@search'])->name('user_search');
+
 });
 Route::group(['prefix' => 'ticket', 'middleware' => ['auth','role:ADMIN,SUB_ADMIN']], function () {
     /* add user */

@@ -19,8 +19,44 @@
                         </div>            
                     </div>
                     <!-- /.card-header -->
+                    
+                    <div class="pt-10">
+                        <form action="{{route('user_search')}}" method="post" id="serach" class="form-inline text-center" role="search">
+                            @csrf
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>User Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>                                       
+                                       <td><input type="text" name="name" id="name" class="form-control"></td> 
+                                       <td><input type="text" name="email" id="email" class="form-control"></td> 
+                                       <td>
+                                        <select name="type" id="type" class="form-control">
+                                            <option value="">Select user type</option>
+                                            @foreach($userRoleArr as $key=> $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td> 
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" align="center">
+                                            <div class="pt-10">
+                                                <button type="submit" class="btn btn-info" class="">Search</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
                     <div class = "pt10-pl20">
-                       <a href="{{route('user_add')}}" class="btn btn-info">Add User</a>
+                       <a href="{{route('user_add')}}" class="btn btn-primary">Add User</a>
                     </div>
                     <div class="card-body ">
                         <!-- Alert message (start) -->
