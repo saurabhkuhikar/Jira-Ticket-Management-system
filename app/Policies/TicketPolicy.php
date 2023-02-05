@@ -37,7 +37,7 @@ class TicketPolicy
      */
     public function view(User $user)
     {
-        if ($user->role == "CLIENT" || $user->role == "DEV") {
+        if ($user->role == "CLIENT" || $user->role == "DEV" || $user->role == "ADMIN") {
             return true;
         }
     }
@@ -80,7 +80,9 @@ class TicketPolicy
      */
     public function delete(User $user)
     {
-
+        if ($user->role == "ADMIN") {
+            return true;
+        }
     }
 
     /**
@@ -115,6 +117,8 @@ class TicketPolicy
      */
     public function assigneUser(User $user)
     {
-
+        if ($user->role == "ADMIN") {
+            return true;
+        }
     }
 }

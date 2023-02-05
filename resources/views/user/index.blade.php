@@ -36,7 +36,6 @@
                                 <th width="3%">Sr. No</th>
                                 <th width="20%">Name</th>
                                 <th width="10%">email</th>
-                                <th width="5%">Gender</th>
                                 <th width="10%">Type</th>
                                 <th width="3%">Status</th>
                                 <th width="15%">Action</th>
@@ -49,7 +48,6 @@
                                     <td class="text-center">{{ $sr++ }}</td>
                                     <td>{{ $user->name}}</td>
                                     <td>{{ $user->email }}</td> 
-                                    <td>{{ $genderArr[$user->gender] }}</td> 
                                     <td>{{ $userRoleArr[$user->role] }}</td> 
                                     <td class="text-center">
                                         <?php  

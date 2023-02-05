@@ -22,7 +22,7 @@ class UserController extends Controller
         if (! Gate::allows('view-user')) {
             abort(403);
         }
-        $userData = User::where('active',1)->orderBy('id', 'desc')->paginate(5);
+        $userData = User::orderBy('id', 'desc')->paginate(5);
         $userStatusArr = Helper::getStatusArr();
         $genderArr = Helper::genderArr();
         $userRoleArr = Helper::getUserRoleArr();
@@ -82,7 +82,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $userDataArr = User::find(decrypt($id));
+        $userRoleArr = Helper::getUserRoleArr();
+        $genderArr = Helper::genderArr();
+        return view('user.view',compact('userDataArr','userRoleArr','genderArr'));
     }
 
     /**
@@ -93,7 +96,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $userDataArr = User::find(decrypt($id));
+        $userRoleArr = Helper::getUserRoleArr();
+        return view('user.edit',compact('userDataArr','userRoleArr'));
     }
 
     /**
@@ -105,7 +110,23 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $finalData = $request->except("_token");
+        $validator = Validator::make($finalData, ['name' => ['required','min:3', 'max:50'], 'email' => ['required','min:3', 'max:50','email'],'gender' => ['required'],'role'=>['required']]);
+        if ($validator->fails()) {
+            Session::flash('user_update', 'Data is not updated!');
+            Session::flash('alert-class', 'alert-danger');
+            return \Redirect::back()->withErrors($validator, 'apply')->withInput();
+        }
+        $clientsMsg = "User update succesfully.";
+        $className = 'alert-success';
+        $saveStatus = User::find($id);
+        if (!$saveStatus->update($finalData)) {
+            $clientsMsg = "User not updated.";
+            $className = 'alert-danger';
+        }
+        Session::flash('user_update', $clientsMsg);
+        Session::flash('alert-class', $className);
+        return \Redirect::back();
     }
 
     /**
@@ -180,5 +201,33 @@ class UserController extends Controller
         }
         
         return redirect()->route('home_page');
+    }
+    
+    /**
+     * User acitve status update
+     * @return json
+     */
+    public function updateUserStutus(Request $request)
+    {
+        $dataArr = $request->all();
+        $userId =  $dataArr['userId'];
+        $userStatus = 0;
+        $submitArr = [];
+
+        if($dataArr['userStatus'] == 0){
+            $userStatus = 1;
+        }
+        $userStatusArr = Helper::getStatusArr();
+
+        $updateStatus = User::where('id',$userId);
+        $submitArr['code'] = 500;
+        $submitArr['success'] = false;
+        if($updateStatus->update(['active'=>$userStatus])){
+            $submitArr['code'] = 200;
+            $submitArr['success'] = true;
+            $submitArr['status'] = $userStatus;
+            $submitArr['value'] = $userStatusArr[$userStatus];
+        }
+        return json_encode($submitArr);
     }
 }

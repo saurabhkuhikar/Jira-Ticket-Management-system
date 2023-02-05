@@ -23,7 +23,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => bcrypt("123456"),
-        'role' => array_rand(['DEV'=>'DEV','QA'=>'QA']),
+        'role' => array_rand(['SUB_ADMIN'=>'SUB_ADMIN','DEV'=>'DEV','QA'=>'QA','CLIENT'=>'CLIENT']),
         'gender' => array_rand(['1'=>1,'2'=>2]),
         'active' => '1',
         'remember_token' => Str::random(20),
