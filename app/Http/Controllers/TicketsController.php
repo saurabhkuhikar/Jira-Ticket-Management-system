@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\DB;
 use Session;
 use Auth;
 class TicketsController extends Controller
@@ -27,7 +27,9 @@ class TicketsController extends Controller
     {
         $inputArr = request()->except("_token");
 
-        $ticketData = Ticket::query();
+        $ticketData = Ticket::query()->leftJoin('users',function($join){
+            $join->on(DB::raw("users.id = tickets.dev_user_id OR users.id = tickets.qa_user_id"));
+        })->select('users.name','tickets.*');
         if (isset($inputArr['ticket_no']) and !empty($inputArr['ticket_no'])) {
             $ticketData->where('ticket_no','LIKE',"%{$inputArr['ticket_no']}%");
         }
@@ -37,11 +39,16 @@ class TicketsController extends Controller
         if (isset($inputArr['status']) and !empty($inputArr['status'])) {
             $ticketData->where('status','=',$inputArr['status']);
         }
+        if (isset($inputArr['qa_name']) and !empty($inputArr['qa_name'])) {
+            $ticketData->where('users.name','LIKE',"%{$inputArr['qa_name']}%");
+        }
+        if (isset($inputArr['dev_name']) and !empty($inputArr['dev_name'])) {
+            $ticketData->where('users.name','LIKE',"%{$inputArr['dev_name']}%");
+        }
         $userStatusArr = Helper::getStatusArr();
         $allUserList = User::getAllUserList();
         $ticketStatusArr = Helper::getTicketStatusArr();
-        $ticketData = $ticketData->orderBy('id', 'desc')->paginate(5);
-
+        $ticketData = $ticketData->orderBy('users.id', 'desc')->paginate(5);
         return view('ticket.index', compact('ticketData', 'userStatusArr', 'allUserList','ticketStatusArr'));
     }
 
