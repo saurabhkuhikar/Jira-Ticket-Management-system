@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             User::updateOrCreate([
                 'name' => $userDataValue['name'],
                 'email' => $userDataValue['email'],
-                'roles' => $userDataValue['roles'],
+                'role' => $userDataValue['roles'],
                 'gender' => $userDataValue['gender'],
                 'password' => $pass,
                 'active' => $userDataValue['active'],

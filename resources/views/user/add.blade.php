@@ -84,26 +84,24 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="roles">User Role</label>
-                                            <select name="role" id="role" class="form-control">
+                                            <label for="role">User Role</label>
+                                            <select name="role" id="role" class="{{ ($errors->apply->has('role'))? 'is-invalid form-control':'form-control' }}">
                                                 <option value="">-----Select User role-----</option>
                                                 @foreach($userRoleArr as $key => $role)
                                                 <option value="{{$key}}">{{$role}}</option>
                                                 @endforeach
                                             </select>
-                                            @if ($errors->apply->has('roles'))
-                                                <span class="invalid-feedback">{{ $errors->apply->first('roles') }}</span>
+                                            @if ($errors->apply->has('role'))
+                                                <span class="invalid-feedback">{{ $errors->apply->first('role') }}</span>
                                             @endif
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <div class="col-2">
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="submit" class="btn btn-primary mr-2" id = "form-submit" value="Submit">
-                                        </div>
+                                <div class="row">
+                                    <div class="col-2">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="submit" class="btn btn-primary mr-2" id = "form-submit" value="Submit">
                                     </div>
                                 </div>
                             </form>
