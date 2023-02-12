@@ -37,7 +37,7 @@ class UserPolicy
      */
     public function view(User $user)
     {
-        if ($user->role == "ADMIN") {
+        if ($user->role == "ADMIN" AND $user->role == "DEV" ) {
             return true;
         }
     }
