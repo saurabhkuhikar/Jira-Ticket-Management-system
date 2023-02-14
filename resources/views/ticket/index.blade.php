@@ -56,7 +56,7 @@
                                         </select></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="3" align="center">
+                                        <td colspan="4" align="center">
                                             <div class="pt-10">
                                                 <button type="submit" class="btn btn-info" class="">Search</button>
                                             </div>
@@ -104,7 +104,7 @@
                                     <td>{{ $user->status }}</td> 
                                     <td class="text-center">
                                         <?php  
-                                        $class = ($user->active == 1) ? "text-success" : "text-danger";                                           
+                                        $class = ($user->active == 1) ? "text-success" : "text-danger";
                                         ?>
                                         <a href="#" user-data = "{{$user->id}}" user-status ="{{$user->active}}"  onClick="updateUser(this);" ><i class="fa fa-circle <?= $class ?>" title =" {{$userStatusArr[$user->active] }}" ></i></a>
                                     </td> 
