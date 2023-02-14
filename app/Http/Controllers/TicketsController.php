@@ -221,4 +221,36 @@ class TicketsController extends Controller
         Session::flash('alert-class', $className);
         return \Redirect::back();
     }
+
+    /**
+     * Update the status of tickets
+     * @param $id
+     * @return json 
+     */
+    public function updateTicketStutus(Request $request)
+    {
+        $dataArr = $request->all();
+        $ticketId =  $dataArr['ticketId'];
+        $userStatus = 0;
+        $submitArr = [];
+
+        if($dataArr['userStatus'] == 0){
+            $userStatus = 1;
+        }
+        $userStatusArr = Helper::getStatusArr();
+
+        /**
+         * Update the active status of tickets
+         */
+        $updateStatus = Ticket::getData($ticketId,$userStatus);
+        $submitArr['code'] = 500;
+        $submitArr['success'] = false;
+        if ($updateStatus == true) {
+            $submitArr['code'] = 200;
+            $submitArr['success'] = true;
+            $submitArr['status'] = $userStatus;
+            $submitArr['value'] = $userStatusArr[$userStatus];
+        }
+        return json_encode($submitArr);
+    }
 }

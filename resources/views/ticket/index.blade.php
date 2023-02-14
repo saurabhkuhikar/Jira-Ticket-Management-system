@@ -194,14 +194,14 @@ function updateUser(obj) {
     var userId = $(obj).attr("user-data");
     var userStatus = $(obj).attr("user-status");
     var statusClass = "text-danger";
-    if (!confirm('Do you want to change user status?')) {
+    if (!confirm('Do you want to change ticket status?')) {
        return false;
     }
     $.ajax({
-        url: "{{route('user_status')}}",		
+        url: "{{route('ticket_status')}}",		
         type: 'POST',
         headers:{'X-CSRF-TOKEN': $('meta[name = "csrf-token"]').attr('content')},
-        data: {'userId': userId,'userStatus':userStatus}  
+        data: {'ticketId': userId,'userStatus':userStatus}  
     }).done(function (response) {
         var data = JSON.parse(response);        
         if (data.code == 200 && data.success == true) {

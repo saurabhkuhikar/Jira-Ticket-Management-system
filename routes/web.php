@@ -50,7 +50,7 @@ Route::group(['prefix' => 'ticket', 'middleware' => ['auth','role:ADMIN,SUB_ADMI
         Route::get('edit/{id}', ['uses' => 'TicketsController@edit'])->name('ticket_edit');
         Route::get('delete/{id}', ['uses' => 'TicketsController@destroy'])->name('ticket_destroy');
         Route::get('view/{id}', ['uses' => 'TicketsController@view'])->name('ticket_view');    
-        Route::post('/ticket-status', ['uses' => 'TicketsController@updateUserStutus'])->name('ticket_status');
+        Route::post('/ticket-status', ['uses' => 'TicketsController@updateTicketStutus'])->name('ticket_status');
         Route::get('ticket-search', ['uses' => 'TicketsController@search'])->name('ticket_search');
 
         /** */
