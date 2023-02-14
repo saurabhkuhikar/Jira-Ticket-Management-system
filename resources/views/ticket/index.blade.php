@@ -36,8 +36,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>                                       
-                                        <td><input type="text" name="ticket_no" id="ticket_no" class="form-control"></td> 
-                                        <td><input type="text" name="dev_name" id="dev_name" class="form-control"></td> 
+                                        <td><input type="text" name="ticket_no" id="ticket_no" class="form-control" autocomplete="off"></td> 
+                                        <td><input type="text" name="dev_name" id="dev_name" class="form-control" autocomplete="off"></td> 
                                         <td><input type="text" name="qa_name" id="qa_name" class="form-control"></td> 
                                         <td width="20%"><div class="input-group date" id="reservationdate">
                                                 <input type="text" name="due_date" class="form-control" data-target="reservationdate" autocomplete="off" placeholder = "Select Due date" value="<?= $ticketArr->due_date ?? NULL ?>" />

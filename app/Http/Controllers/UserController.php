@@ -67,8 +67,6 @@ class UserController extends Controller
         $finalData = $request->except("_token");
         $validator = Validator::make($finalData, ['name' => ['required','min:3', 'max:50'], 'email' => ['required','min:3', 'max:50','email'], 'password' => ['required', 'min:1', 'max:6'],'gender' => ['required'],'role'=>['required']]);
         if ($validator->fails()) {
-            Session::flash('user_update', 'Data is not updated!');
-            Session::flash('alert-class', 'alert-danger');
             return \Redirect::back()->withErrors($validator, 'apply')->withInput();
         }
         $clientsMsg = "User created succesfully.";

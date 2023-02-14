@@ -31,7 +31,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="first-name">Name</label>
-                                            <input type="text" id="name" name="name" class="{{ ($errors->apply->has('name'))?'is-invalid form-control':'form-control' }}" placeholder="Enter Your Full Name" value="{{old('name')}}">
+                                            <input type="text" id="name" name="name" class="{{ ($errors->apply->has('name'))?'is-invalid form-control':'form-control' }}" placeholder="Enter Your Full Name" value="{{old('name')}}" autocomplete="off">
                                             @if ($errors->apply->has('name'))
                                                 <span class="invalid-feedback">{{ $errors->apply->first('name') }}</span>
                                             @endif
@@ -43,7 +43,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="Email">Email</label>
-                                            <input type="text" name="email" id="email" class="{{ ($errors->apply->has('email'))?'is-invalid form-control':'form-control' }}" placeholder="Enter Your Email" value="{{old('email')}}">
+                                            <input type="text" name="email" id="email" class="{{ ($errors->apply->has('email'))?'is-invalid form-control':'form-control' }}" placeholder="Enter Your Email" value="{{old('email')}}" autocomplete="off">
                                             @if ($errors->apply->has('email'))
                                                 <span class="invalid-feedback">{{ $errors->apply->first('email') }}</span>
                                             @endif
@@ -52,7 +52,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="password">Password</label>
-                                            <input type="text" name="password" id="password" class="{{ ($errors->apply->has('password'))?'is-invalid form-control':'form-control' }}" placeholder="Enter the password" >
+                                            <input type="text" name="password" id="password" class="{{ ($errors->apply->has('password'))?'is-invalid form-control':'form-control' }}" placeholder="Enter the password" autocomplete="off">
                                             @if ($errors->apply->has('password'))
                                                 <span class="invalid-feedback">{{ $errors->apply->first('password') }}</span>
                                             @endif

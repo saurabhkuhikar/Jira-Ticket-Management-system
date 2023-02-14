@@ -26,11 +26,8 @@ class TicketsController extends Controller
     public function index()
     {
         $inputArr = request()->except("_token");
-        // DB::enableQueryLog();
-        $ticketData = DB::table('tickets')->leftJoin('users', function ($join) {
-            $join->on('users.id', '=', 'tickets.dev_user_id');
-            $join->orOn('users.id', '=', 'tickets.qa_user_id');
-        })->select('tickets.*','users.name');
+        DB::enableQueryLog();
+        $ticketData = DB::table('tickets')->select('tickets.*');
 
         if (isset($inputArr['ticket_no']) and !empty($inputArr['ticket_no'])) {
             $ticketData->where('ticket_no','LIKE',"%{$inputArr['ticket_no']}%");
@@ -42,16 +39,21 @@ class TicketsController extends Controller
             $ticketData->where('status','=',$inputArr['status']);
         }
         if (isset($inputArr['qa_name']) and !empty($inputArr['qa_name'])) {
-            $ticketData->where('users.name','LIKE',"%{$inputArr['qa_name']}%");
+
+            $qaUserIds = User::getUserIds(trim($inputArr['qa_name']))->toArray();
+            $qaUserIds = array_values($qaUserIds);
+            $ticketData->whereIn('qa_user_id',$qaUserIds);
         }
+
         if (isset($inputArr['dev_name']) and !empty($inputArr['dev_name'])) {
-            $ticketData->where('users.name','LIKE',"%{$inputArr['dev_name']}%");
+            $devUserIds = User::getUserIds(trim($inputArr['dev_name']))->toArray();
+            $devUserIds = array_values($devUserIds);
+            $ticketData->whereIn('dev_user_id',$devUserIds);
         }
         $userStatusArr = Helper::getStatusArr();
         $allUserList = User::getAllUserList();
         $ticketStatusArr = Helper::getTicketStatusArr();
-        $ticketData = $ticketData->paginate(10);
-        // dd(DB::getQueryLog());
+        $ticketData = $ticketData->orderBy('tickets.id','DESC')->paginate(10);
 
         return view('ticket.index', compact('ticketData', 'userStatusArr', 'allUserList','ticketStatusArr'));
     }
@@ -82,8 +84,6 @@ class TicketsController extends Controller
         $finalData['remember_token'] = Str::random(20);
         $validator = Validator::make($finalData, ['ticket_no' => ['required', 'min:3', 'max:200'], 'summery' => ['required', 'min:1', 'max:100'], 'due_date' => ['required','date','after:tomorrow']]);
         if ($validator->fails()) {
-            Session::flash('ticket_update', 'Data is not updated!');
-            Session::flash('alert-class', 'alert-danger');
             return \Redirect::back()->withErrors($validator, 'apply')->withInput();
         }
         $clientsMsg = "Ticket created succesfully.";
