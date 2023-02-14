@@ -31,7 +31,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="ticket_no">Ticket No.</label>
-                                            <input type="text" id="ticket_no" name="ticket_no" class="{{ ($errors->apply->has('ticket_no'))?'is-invalid form-control':'form-control' }}" placeholder="Enter Ticket Number" value="{{old('ticket_no')}}">
+                                            <input type="text" id="ticket_no" name="ticket_no" class="{{ ($errors->apply->has('ticket_no'))?'is-invalid form-control':'form-control' }}" placeholder="Enter Ticket Number" value="{{old('ticket_no')}}" autocomplete="off">
                                             @if ($errors->apply->has('ticket_no'))
                                                 <span class="invalid-feedback">{{ $errors->apply->first('ticket_no') }}</span>
                                             @endif
@@ -43,7 +43,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="summery">Summery</label>
-                                            <input type="text" name="summery" id="summery" class="{{ ($errors->apply->has('summery'))?'is-invalid form-control':'form-control' }}" placeholder="Enter Your summery" value="{{old('summery')}}">
+                                            <input type="text" name="summery" id="summery" class="{{ ($errors->apply->has('summery'))?'is-invalid form-control':'form-control' }}" placeholder="Enter Your summery" value="{{old('summery')}}" autocomplete="off">
                                             @if ($errors->apply->has('summery'))
                                                 <span class="invalid-feedback">{{ $errors->apply->first('summery') }}</span>
                                             @endif
@@ -76,13 +76,11 @@
                                     </div>
                                     
                                 </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <div class="col-2">
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="submit" class="btn btn-primary mr-2" id = "form-submit" value="Submit">
-                                        </div>
+                                <div class="row">
+                                    <div class="col-2">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="submit" class="btn btn-primary mr-2" id = "form-submit" value="Submit">
                                     </div>
                                 </div>
                             </form>

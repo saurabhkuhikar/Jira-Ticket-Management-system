@@ -81,4 +81,13 @@ class User extends Authenticatable
         $userLisArr = User :: orderBy('name')->get()->pluck('name','id');
         return $userLisArr;
     }
+
+    /**
+     * Get user ids
+     */
+    public static function getUserIds($userName = null)
+    {
+        $userLisArr = User :: where('name','LIKE',"%{$userName}%")->pluck('id');
+        return $userLisArr;
+    }
 }

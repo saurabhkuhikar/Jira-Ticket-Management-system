@@ -33,8 +33,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>                                       
-                                       <td><input type="text" name="name" id="name" class="form-control"></td> 
-                                       <td><input type="text" name="email" id="email" class="form-control"></td> 
+                                       <td><input type="text" name="name" id="name" class="form-control" autocomplete="off"></td> 
+                                       <td><input type="text" name="email" id="email" class="form-control" autocomplete="off"></td> 
                                        <td>
                                         <select name="role" id="role" class="form-control">
                                             <option value="">Select user type</option>
