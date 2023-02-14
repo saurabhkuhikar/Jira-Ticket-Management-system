@@ -12,7 +12,12 @@ class Ticket extends Model
      * @var array
      */
     protected $fillable = ['ticket_no','dev_user_id','qa_user_id','summery','due_date','comment','status','active'];
-
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'tickets';
     /**
      * This function is use to create the new user
      * @param Array

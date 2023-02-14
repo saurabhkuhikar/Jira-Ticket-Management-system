@@ -26,10 +26,12 @@ class TicketsController extends Controller
     public function index()
     {
         $inputArr = request()->except("_token");
+        // DB::enableQueryLog();
+        $ticketData = DB::table('tickets')->leftJoin('users', function ($join) {
+            $join->on('users.id', '=', 'tickets.dev_user_id');
+            $join->orOn('users.id', '=', 'tickets.qa_user_id');
+        })->select('tickets.*','users.name');
 
-        $ticketData = Ticket::query()->leftJoin('users',function($join){
-            $join->on(DB::raw("users.id = tickets.dev_user_id OR users.id = tickets.qa_user_id"));
-        })->select('users.name','tickets.*');
         if (isset($inputArr['ticket_no']) and !empty($inputArr['ticket_no'])) {
             $ticketData->where('ticket_no','LIKE',"%{$inputArr['ticket_no']}%");
         }
@@ -48,7 +50,9 @@ class TicketsController extends Controller
         $userStatusArr = Helper::getStatusArr();
         $allUserList = User::getAllUserList();
         $ticketStatusArr = Helper::getTicketStatusArr();
-        $ticketData = $ticketData->orderBy('users.id', 'desc')->paginate(5);
+        $ticketData = $ticketData->paginate(10);
+        // dd(DB::getQueryLog());
+
         return view('ticket.index', compact('ticketData', 'userStatusArr', 'allUserList','ticketStatusArr'));
     }
 
