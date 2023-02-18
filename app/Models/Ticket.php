@@ -33,13 +33,13 @@ class Ticket extends Model
 
     /**
      * get Data of tickets
-     * @param $id
+     * @param $ticketId [int] $updateTicketArr [array]
      * @return array
      */
-    public static function getData($id = null,$userStatus)
+    public static function updateData($id = null,$updateArr = [])
     {
         $ticketsDataArr = Ticket::where('id',$id);
-        if(!$ticketsDataArr->update(['active'=>$userStatus])){
+        if(!$ticketsDataArr->update($updateArr)){
             return false;
         }
         return true;

@@ -101,7 +101,7 @@
                                     <td>{{ $allUserList[$user->dev_user_id] ?? "" }}</td> 
                                     <td>{{ $allUserList[$user->qa_user_id] ?? "" }}</td> 
                                     <td>{{ $user->due_date }}</td> 
-                                    <td>{{ $user->status }}</td> 
+                                    <td> <a href="#" data-href = "{{route('change_ticket_status',base64_encode($user->id))}}" user-status ="{{$user->status}}"  onClick="editModal(this);" >{{ $user->status }}</a></td>
                                     <td class="text-center">
                                         <?php  
                                         $class = ($user->active == 1) ? "text-success" : "text-danger";
@@ -183,12 +183,12 @@ $(document).ready(function (){
 //         $('#modal-default').modal({show:true});
 //     })
 // }
-// function editModal(obj) {
-//     var dataURL = $(obj).attr('data-href');        
-//     $('.modal-body').load(dataURL,function(){
-//         $('#modal-default').modal({show:true});
-//     })
-// }
+function editModal(obj) {
+    var dataURL = $(obj).attr('data-href');        
+    $('.modal-body').load(dataURL,function(){
+        $('#modal-default').modal({show:true});
+    })
+}
 function updateUser(obj) {
 
     var userId = $(obj).attr("user-data");

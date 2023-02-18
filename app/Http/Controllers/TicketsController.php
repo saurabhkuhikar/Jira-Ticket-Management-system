@@ -227,22 +227,23 @@ class TicketsController extends Controller
      * @param $id
      * @return json 
      */
-    public function updateTicketStutus(Request $request)
+    public function changeTicketStatus(Request $request)
     {
         $dataArr = $request->all();
         $ticketId =  $dataArr['ticketId'];
         $userStatus = 0;
-        $submitArr = [];
+        $submitArr = $updateTicketArr = [];
 
         if($dataArr['userStatus'] == 0){
             $userStatus = 1;
         }
         $userStatusArr = Helper::getStatusArr();
+        $updateTicketArr['active'] = $userStatus;
 
         /**
          * Update the active status of tickets
          */
-        $updateStatus = Ticket::getData($ticketId,$userStatus);
+        $updateStatus = Ticket::updateData($ticketId,$updateTicketArr);
         $submitArr['code'] = 500;
         $submitArr['success'] = false;
         if ($updateStatus == true) {
@@ -250,6 +251,51 @@ class TicketsController extends Controller
             $submitArr['success'] = true;
             $submitArr['status'] = $userStatus;
             $submitArr['value'] = $userStatusArr[$userStatus];
+        }
+        return json_encode($submitArr);
+    }
+
+    /**
+     * This function is render the ticket status view
+     * @param tickets $id
+     * @return render view
+     */
+    public function ticketStatus($id = NULL)
+    {
+        $ticketArr = Ticket::find(base64_decode($id));
+        
+        $ticketStatusArr = Helper::getTicketStatusArr();   
+        
+        return view('ticket.change_ticket_status',compact('ticketStatusArr','ticketArr'))->render();
+    }
+
+
+    /**
+     * This function is use to update the ticket status
+     * @param $request post
+     * @return json
+     */
+    public function updateTicketStatus(Request $request)
+    {
+        $dataArr = $request->all();
+        $ticketId =  $dataArr['ticketId'];
+        $submitArr = $updateTicketArr = [];
+
+        $updateTicketArr['status'] = ($dataArr['status']) ?? NULL;
+
+        /**
+         * Update the active status of tickets
+         * @param $ticketId [int] $updateTicketArr [array]
+         */
+        $updateStatus = Ticket::updateData($ticketId,$updateTicketArr);
+        $submitArr['code'] = 500;
+        $submitArr['success'] = false;
+        $submitArr['msg'] = "Ticket status not updated!";
+
+        if ($updateStatus == true) {
+            $submitArr['code'] = 200;
+            $submitArr['success'] = true;
+            $submitArr['msg'] = "Ticket status updated!";
         }
         return json_encode($submitArr);
     }
