@@ -26,7 +26,7 @@ Route::get('login', ['uses' => 'UserController@logPage'])->name('login');
     Route::post('login-submit', ['uses' => 'UserController@logSubmit'])->name('user_authenticate');
 // });
 
-Route::group(['prefix' => 'user', 'middleware' => ['auth','checkStatus']], function () {
+Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
 /* add user */
     Route::get('add', ['uses' => 'UserController@create'])->name('user_add');
     Route::get('index', ['uses' => 'UserController@index'])->name('user_index');
@@ -41,7 +41,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth','checkStatus']], funct
     // Route::post('user-search', ['uses' => 'UserController@search'])->name('user_search');
 
 });
-Route::group(['prefix' => 'ticket', 'middleware' => ['auth','role:ADMIN,SUB_ADMIN']], function () {
+Route::group(['prefix' => 'ticket', 'middleware' => ['auth']], function () {
     /* add user */
         Route::get('add', ['uses' => 'TicketsController@create'])->name('ticket_add');
         Route::get('index', ['uses' => 'TicketsController@index'])->name('ticket_index');
@@ -50,11 +50,14 @@ Route::group(['prefix' => 'ticket', 'middleware' => ['auth','role:ADMIN,SUB_ADMI
         Route::get('edit/{id}', ['uses' => 'TicketsController@edit'])->name('ticket_edit');
         Route::get('delete/{id}', ['uses' => 'TicketsController@destroy'])->name('ticket_destroy');
         Route::get('view/{id}', ['uses' => 'TicketsController@view'])->name('ticket_view');    
-        Route::post('/ticket-status', ['uses' => 'TicketsController@updateUserStutus'])->name('ticket_status');
+        Route::post('ticket-status', ['uses' => 'TicketsController@changeTicketStatus'])->name('ticket_status');
         Route::get('ticket-search', ['uses' => 'TicketsController@search'])->name('ticket_search');
-
+        
         /** */
-        Route::get('assign-ticket-add/{id}', ['uses' => 'TicketsController@assignTicketAdd'])->name('assign_ticket_add');    
-        Route::post('assign-ticket-store/{id}', ['uses' => 'TicketsController@assignTicketStore'])->name('assign_ticket_store');    
+        Route::get('assign-ticket-add/{id}', ['uses' => 'TicketsController@assignTicketAdd'])->name('assign_ticket_add');
+        Route::post('assign-ticket-store/{id}', ['uses' => 'TicketsController@assignTicketStore'])->name('assign_ticket_store');
+        
+        Route::get('change-ticket-status/{id}', ['uses' => 'TicketsController@ticketStatus'])->name('change_ticket_status');
+        Route::post('change-ticket-status', ['uses' => 'TicketsController@updateTicketStatus'])->name('update_ticket_status');
     
     });

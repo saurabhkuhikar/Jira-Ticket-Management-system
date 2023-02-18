@@ -30,4 +30,18 @@ class Ticket extends Model
         }
         return true;
     }
+
+    /**
+     * get Data of tickets
+     * @param $ticketId [int] $updateTicketArr [array]
+     * @return array
+     */
+    public static function updateData($id = null,$updateArr = [])
+    {
+        $ticketsDataArr = Ticket::where('id',$id);
+        if(!$ticketsDataArr->update($updateArr)){
+            return false;
+        }
+        return true;
+    }
 }

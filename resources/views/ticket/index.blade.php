@@ -101,7 +101,7 @@
                                     <td>{{ $allUserList[$user->dev_user_id] ?? "" }}</td> 
                                     <td>{{ $allUserList[$user->qa_user_id] ?? "" }}</td> 
                                     <td>{{ $user->due_date }}</td> 
-                                    <td>{{ $user->status }}</td> 
+                                    <td> <a href="#" data-href = "{{route('change_ticket_status',base64_encode($user->id))}}" user-status ="{{$user->status}}"  onClick="editModal(this);" >{{ $user->status }}</a></td>
                                     <td class="text-center">
                                         <?php  
                                         $class = ($user->active == 1) ? "text-success" : "text-danger";
@@ -183,25 +183,25 @@ $(document).ready(function (){
 //         $('#modal-default').modal({show:true});
 //     })
 // }
-// function editModal(obj) {
-//     var dataURL = $(obj).attr('data-href');        
-//     $('.modal-body').load(dataURL,function(){
-//         $('#modal-default').modal({show:true});
-//     })
-// }
+function editModal(obj) {
+    var dataURL = $(obj).attr('data-href');        
+    $('.modal-body').load(dataURL,function(){
+        $('#modal-default').modal({show:true});
+    })
+}
 function updateUser(obj) {
 
     var userId = $(obj).attr("user-data");
     var userStatus = $(obj).attr("user-status");
     var statusClass = "text-danger";
-    if (!confirm('Do you want to change user status?')) {
+    if (!confirm('Do you want to change ticket status?')) {
        return false;
     }
     $.ajax({
-        url: "{{route('user_status')}}",		
+        url: "{{route('ticket_status')}}",		
         type: 'POST',
         headers:{'X-CSRF-TOKEN': $('meta[name = "csrf-token"]').attr('content')},
-        data: {'userId': userId,'userStatus':userStatus}  
+        data: {'ticketId': userId,'userStatus':userStatus}  
     }).done(function (response) {
         var data = JSON.parse(response);        
         if (data.code == 200 && data.success == true) {
