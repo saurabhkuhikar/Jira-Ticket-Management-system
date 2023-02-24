@@ -24,7 +24,7 @@
                     <div class="pt-10">
                         <form action="{{route('ticket_index')}}" method="get" id="serach" class="form-inline text-center" role="search">
                             @csrf
-                            <table width="100%">
+                            <table width="100%" class="table-responsive">
                                 <thead>
                                     <tr>
                                     <th>Ticket No.</th>
@@ -79,7 +79,7 @@
                             </div>
                         @endif
                         <!-- Alert message (end) -->
-                        <table class="table table-bordered table-hover" width="100%">
+                        <table class="table table-bordered table-hover table-responsive" width="100%">
                             <thead>
                                 <tr class="text-center">
                                 <th width="5%">Sr. No</th>

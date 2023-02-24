@@ -67,7 +67,6 @@
         <div class="flex-center position-ref full-height">
                 <div class="top-right links">
                     @auth
-                        <a href="{{ route('home_page') }}">Home</a>
                         <a href="{{ route('dashboard') }}">Dashboard</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
